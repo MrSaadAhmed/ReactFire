@@ -3,7 +3,8 @@ var ReactFire = React.createClass({
     getInitialState: function(){
         return{
             Todos: [],
-            newTodo: ""
+            newTodo: "",
+            editTodo: ""
         };
     },
 
@@ -41,7 +42,8 @@ var ReactFire = React.createClass({
         }
     },
 
-    removeTodo: function(key){
+    removeTodo: function(key, e){
+        e.preventDefault();
         var firebaseRef = firebase.database().ref('tasks');
         firebaseRef.child(key).remove();
     },
@@ -58,9 +60,9 @@ var ReactFire = React.createClass({
                 <ul className="list-group">
                     { this.state.Todos.map(function(todos, idx){
                         return(
-                            <li className="list-group-item" key={idx}>
+                            <li className="list-group-item" key={idx} id={idx}>
                                 {todos.newTodo}
-                                <a href="" className="del btn btn-xs btn-danger" onClick={this.removeTodo.bind(null, todos['.key'])}>X</a>
+                                <a href="" className="del glyphicon glyphicon-remove" onClick={this.removeTodo.bind(null, todos['.key'])}></a>
                             </li>
                         );
                     }.bind(this)) }
